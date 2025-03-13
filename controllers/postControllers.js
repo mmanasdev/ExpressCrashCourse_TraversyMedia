@@ -1,4 +1,3 @@
-
 let posts = [
     { id: 1, title: "Post One" },
     { id: 2, title: "Post Two" },
@@ -48,7 +47,7 @@ export const createPost = (req, res, next) => {
     }
 
     posts.push(newPost);
-    res.status(201).json(posts);
+    res.status(201).json(newPost);
 }
 
 // @desc Update a post
