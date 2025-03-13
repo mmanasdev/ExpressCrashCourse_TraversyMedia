@@ -1,10 +1,16 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import postsRouter from './routes/posts.js';
 import logger from './middleware/logger.js';
 import errorHandler from './middleware/error.js';
+import notFound from './middleware/notFound.js';
 const app = express();
 const port = process.env.PORT || 8000;
+
+// Get the current file URL and convert it to a path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middleware
 app.use(express.json());
@@ -14,7 +20,7 @@ app.use(logger);
 
 
 // setup static folder
-// app.use(express.static(path.join(__dirname, 'public')));
+ app.use(express.static(path.join(__dirname, 'public')));
 
 // app.get('/', (req, res) => {
     //  res.send('<h1>Hello World</h1>');
@@ -29,6 +35,8 @@ app.use(logger);
 
 // Routes
 app.use('/api/posts', postsRouter); 
+
+app.use(notFound);
 
 // Error middleware
 app.use(errorHandler);
